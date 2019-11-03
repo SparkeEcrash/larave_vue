@@ -14,10 +14,17 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-				$questions = Question::latest()->paginate(5);
+				// \DB::enableQueryLog();
+
+				$questions = Question::with('user')->latest()->paginate(5);
+				//when ::with('user') is used... the SQL queries to retrieve each of the linked 'user' data will be combined into one query
 
 				return view('questions.index', compact('questions'));
-				
+				// view('questions.index', compact('questions'))->render();
+				// render() gets the string content for the view for the purpose of debuggin
+
+				// dd(\DB::getQueryLog());
+				// you can view SQL queries that were run to execute this method after enable the above row and \DB::enableQueryLog()
     }
 
     /**
